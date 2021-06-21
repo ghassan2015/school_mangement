@@ -142,11 +142,12 @@ class AddParent extends Component
             $My_Parent->Religion_Mother_id = $this->Religion_Mother_id;
             $My_Parent->Address_Mother = $this->Address_Mother;
             $My_Parent->save();
-            if (!empty($this->photos)){
+            if ($this->photos){
+
                 foreach ($this->photos as $photo) {
-                 $photo->storeAs($this->National_ID_Father, $photo->getClientOriginalName(), $disk = 'parent_attachments');
+             $photo->storeAs($this->National_ID_Father, $photo->getClientOriginalName(), $disk = 'parent_attachments');
                     ParentAttachment::create([
-                        'file_name' => $photo->getClientOriginalName(),
+                        'name' => $photo->getClientOriginalName(),
                         'parent_id' => My_Parent::latest()->first()->id,
                     ]);
                 }

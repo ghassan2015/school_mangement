@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
@@ -25,6 +26,14 @@ class Teacher extends Model
     public function Sections()
     {
         return $this->belongsToMany('App\Models\Section','teacher_section');
+    }
+    public function Courses()
+    {
+        return $this->belongsToMany(Course::class,'course_teacher');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id','');
     }
 
 }

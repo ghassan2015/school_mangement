@@ -20,6 +20,7 @@ interface TeacherRepositoryInterface
 
     // StoreTeachers
     public function editTeachers($id);
+    public function editUser($id);
 
     // UpdateTeachers
     public function UpdateTeachers($request);

@@ -23,7 +23,7 @@ class Section extends Model
     }
     public function teachers()
     {
-        return $this->belongsToMany('App\Models\Teacher','teacher_section');
+        return $this->belongsToMany(Teacher::class,'teacher_section');
     }
 
 

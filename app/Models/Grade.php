@@ -21,5 +21,8 @@ class Grade extends Model
     {
         return $this->hasMany('App\Models\Section', 'Grade_id');
     }
-
+    public function Courses()
+    {
+        return $this->hasMany(Course::class, 'Grade_id');
+    }
 }

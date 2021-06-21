@@ -68,8 +68,52 @@ Route::group(
         Route::resource('Teachers', 'TeacherController');
 
     });
+    //==============================Student============================
 
+    Route::group(['namespace' => 'Student'], function () {
 
+        Route::resource('Students', 'StudentController');
+        Route::get('/Get_classrooms/{id}', 'StudentController@Get_classrooms');
+        Route::get('/Get_Sections/{id}', 'StudentController@Get_Sections');
+        Route::post('Upload_attachment', 'StudentController@Upload_attachment')->name('Upload_attachment');
+        Route::get('Download_attachment/{studentsname}/{filename}', 'StudentController@Download_attachment')->name('Download_attachment');
+        Route::post('Delete_attachment', 'StudentController@Delete_attachment')->name('Delete_attachment');
+
+    });
+    //==============================Courses Students ============================
+
+    Route::group(['namespace' => 'Courses'], function () {
+        Route::resource('Course', 'CourseController');
+        Route::get('/Course/{id}/editAttachment', 'CourseController@editAttachment')->name('Course.editattachments');
+        Route::post('AttachmentsCourse/{id}', 'CourseController@updateAttachment')->name('Course.attachments');
+    });
+
+//==============================Promotion Students ============================
+Route::group(['namespace' => 'Student'], function () {
+    Route::resource('Promotion', 'PromotionController');
+});
+
+    //==============================Exam Type ============================
+    Route::group(['namespace' => 'ExamType'], function () {
+        Route::resource('ExamType', 'ExamTypeController');
+    });
+    //==============================Exam Type ============================
+    Route::group(['namespace' => 'Exam'], function () {
+        Route::resource('Exam', 'ExamController');
+    });
+    Route::group(['namespace' => 'Role'], function () {
+        Route::resource('roles','RoleController');
+    });
+    Route::group(['namespace' => 'User'], function () {
+        Route::resource('users','UserController');
+    });
+});
+Route::get('/test', function () {
+//$user=\App\User::role('طالب')->get();
+
+    $user=\App\Models\Teacher::find(1);
+
+    return $user->genders->Name;
 });
 Auth::routes();
 

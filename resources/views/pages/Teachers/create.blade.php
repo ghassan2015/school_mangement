@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    {{ trans('Teacher_trans.Add_Teacher') }}
+    {{ trans('Teacher_trans.Edit_Teacher') }}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    {{ trans('Teacher_trans.Add_Teacher') }}
+    {{ trans('Teacher_trans.Edit_Teacher') }}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -23,8 +23,6 @@
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong>{{ session()->get('error') }}</strong>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-
-
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -37,14 +35,15 @@
                                 <div class="form-row">
                                     <div class="col">
                                         <label for="title">{{trans('Teacher_trans.Email')}}</label>
-                                        <input type="email" name="Email" class="form-control">
+                                        <input type="hidden" value="{{$Teachers->id}}" name="id">
+                                        <input type="email" name="Email" value="{{$Teachers->email}}" class="form-control" disabled>
                                         @error('Email')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col">
                                         <label for="title">{{trans('Teacher_trans.Password')}}</label>
-                                        <input type="password" name="Password" class="form-control">
+                                        <input type="password" name="Password" value="{{$Teachers->password}}" class="form-control" disabled>
                                         @error('Password')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
@@ -56,25 +55,18 @@
                                 <div class="form-row">
                                     <div class="col">
                                         <label for="title">{{trans('Teacher_trans.Name_ar')}}</label>
-                                        <input type="text" name="Name_ar" class="form-control">
-                                        @error('Name_ar')
+                                        <input type="text" name="Name" value="{{ $Teachers->name}}" class="form-control" disabled>
+                                        @error('Name')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="col">
-                                        <label for="title">{{trans('Teacher_trans.Name_en')}}</label>
-                                        <input type="text" name="Name_en" class="form-control">
-                                        @error('Name_en')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+
                                 </div>
                                 <br>
                                 <div class="form-row">
                                     <div class="form-group col">
                                         <label for="inputCity">{{trans('Teacher_trans.specialization')}}</label>
                                         <select class="custom-select my-1 mr-sm-2" name="Specialization_id">
-                                            <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
                                             @foreach($specializations as $specialization)
                                                 <option value="{{$specialization->id}}">{{$specialization->Name}}</option>
                                             @endforeach
@@ -86,7 +78,6 @@
                                     <div class="form-group col">
                                         <label for="inputState">{{trans('Teacher_trans.Gender')}}</label>
                                         <select class="custom-select my-1 mr-sm-2" name="Gender_id">
-                                            <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
                                             @foreach($genders as $gender)
                                                 <option value="{{$gender->id}}">{{$gender->Name}}</option>
                                             @endforeach
@@ -102,7 +93,7 @@
                                     <div class="col">
                                         <label for="title">{{trans('Teacher_trans.Joining_Date')}}</label>
                                         <div class='input-group date'>
-                                            <input class="form-control" type="text"  id="datepicker-action" name="Joining_Date" data-date-format="yyyy-mm-dd"  required>
+                                            <input class="form-control" type="text"  id="datepicker-action"  value="{{$Teachers->Joining_Date}}" name="Joining_Date" data-date-format="yyyy-mm-dd"  required>
                                         </div>
                                         @error('Joining_Date')
                                         <div class="alert alert-danger">{{ $message }}</div>
@@ -114,7 +105,7 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlTextarea1">{{trans('Teacher_trans.Address')}}</label>
                                     <textarea class="form-control" name="Address"
-                                              id="exampleFormControlTextarea1" rows="4"></textarea>
+                                              id="exampleFormControlTextarea1" rows="4">{{$Teachers->Address}}</textarea>
                                     @error('Address')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror

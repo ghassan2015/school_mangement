@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Models\Specialization;
+use App\Models\Teacher;
 use App\Repository\TeacherRepositoryInterface;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TeacherController extends Controller
 {
@@ -32,9 +35,14 @@ class TeacherController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {$specializations=$this->Teacher->Getspecialization();
-    $genders=$this->Teacher->GetGender();
-        return view('pages.Teachers.create',compact('specializations','genders'));
+
+    {
+        $id=Auth::user()->id;
+        $Teachers= $this->Teacher->editUser($id);
+
+        $specializations=$this->Teacher->Getspecialization();
+        $genders=$this->Teacher->GetGender();
+        return view('pages.Teachers.create',compact('specializations','genders','Teachers'));
     }
 
     /**
@@ -68,10 +76,13 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
-    $Teachers=    $this->Teacher->editTeachers($id);
+
+
+        $User=Auth::user();
+        $Teachers=Teacher::where('user_id',$id)->first();
         $specializations=$this->Teacher->Getspecialization();
         $genders=$this->Teacher->GetGender();
-        return view('pages.Teachers.edit',compact('Teachers','specializations','genders'));
+       return view('pages.Teachers.edit',compact('User','Teachers','specializations','genders'));
     }
 
     /**
@@ -81,6 +92,7 @@ class TeacherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request)
     {
         return $this->Teacher->UpdateTeachers($request);

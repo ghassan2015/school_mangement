@@ -5,6 +5,7 @@ use App\Models\Classroom;
 use App\Models\Grade;
 use App\Models\Section;
 use App\Models\Teacher;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreSections;
 
@@ -20,7 +21,7 @@ class SectionController extends Controller
   {
 
     $Grades = Grade::with(['Sections'])->get();
-$teachers=Teacher::all();
+$teachers=User::role('معلم')->get();
     $list_Grades = Grade::all();
 
     return view('pages.Sections.Sections',compact('Grades','list_Grades','teachers'));
@@ -35,6 +36,7 @@ $teachers=Teacher::all();
   public function store(StoreSections $request)
   {
 
+
     try {
 
       $validated = $request->validated();
@@ -45,7 +47,7 @@ $teachers=Teacher::all();
       $Sections->Class_id = $request->Class_id;
       $Sections->Status = 1;
       $Sections->save();
-      $Sections->teachers()->attach($request->teacher_id);
+      $Sections->teachers()->sync($request->teacher_id);
       toastr()->success(trans('messages.success'));
 
       return redirect()->route('Sections.index');
